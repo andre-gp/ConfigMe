@@ -1,0 +1,16 @@
+{
+    "name": "gaton.config-me.editor",
+    "rootNamespace": "ConfigMe.EditorCM",
+    "references": [
+        "GUID:b639849255d65374c971e5d3f7ec02ef"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

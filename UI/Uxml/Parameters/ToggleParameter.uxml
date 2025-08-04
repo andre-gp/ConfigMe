@@ -1,0 +1,5 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/QuickSettings/UI/Uss/Text.uss?fileID=7433441132597879392&amp;guid=d53b8365cc3b28543be3a37d9fb790dc&amp;type=3#Text" />
+    <Style src="project://database/Assets/QuickSettings/UI/Uss/Parameters/ToggleParameter.uss?fileID=7433441132597879392&amp;guid=ee13aa3bd4488764c8018c7f5b78a355&amp;type=3#ToggleParameter" />
+    <ui:Toggle label="Blablla" name="parameter__toggle" class="font-default text__size--small" />
+</ui:UXML>

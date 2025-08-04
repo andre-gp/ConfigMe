@@ -1,0 +1,18 @@
+.text__font--default {
+    -unity-font-definition: url("project://database/Assets/QuickSettings/UI/Font/Lato-Regular%20SDF.asset?fileID=11400000&guid=94c31c5faf444e545ab5a0c0bdc3f34e&type=2#Lato-Regular SDF");
+}
+
+.text__size--small {
+    font-size: 35px;
+}
+
+.text__size--medium {
+    font-size: 45px;
+}
+
+.text__size--large {
+    font-size: 60px;
+}
+
+.unity-base-field:focus:enabled > .unity-base-field__label {
+}

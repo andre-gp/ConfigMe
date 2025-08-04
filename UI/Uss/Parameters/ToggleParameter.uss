@@ -1,0 +1,13 @@
+.parameter__toggle {
+}
+
+.unity-toggle__input {
+}
+
+.unity-toggle__label {
+    min-width: 40%;
+}
+
+.unity-base-field:focus:enabled > .unity-base-field__label {
+    color: initial;
+}

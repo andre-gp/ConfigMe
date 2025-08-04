@@ -1,0 +1,10 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/QuickSettings/UI/Uss/Background.uss?fileID=7433441132597879392&amp;guid=e57ea65a113b9194cbf1a798952102cc&amp;type=3#Background" />
+    <Style src="project://database/Assets/QuickSettings/UI/Uss/CategoriesBar.uss?fileID=7433441132597879392&amp;guid=5035e89b9ca9d7e4b8adeed2a1aa3064&amp;type=3#CategoriesBar" />
+    <ui:VisualElement name="menu__screen" style="flex-grow: 1;">
+        <ui:VisualElement name="tabs__container" style="flex-grow: 1;">
+            <ui:VisualElement name="tabs__background" class="menu__background" />
+            <ui:VisualElement name="tabs__button-group" class="tabs__button-group" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

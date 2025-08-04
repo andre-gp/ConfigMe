@@ -1,0 +1,45 @@
+.stepper {
+}
+
+.stepper__label {
+    background-color: rgb(119, 188, 142);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    -unity-text-align: middle-left;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-width: 40%;
+}
+
+.stepper__input {
+    background-color: rgb(168, 253, 188);
+    align-items: stretch;
+}
+
+.stepper__choice-label {
+    -unity-text-align: upper-center;
+}
+
+.stepper__position-indicator-group {
+    flex-direction: row;
+    justify-content: center;
+    flex-shrink: 0;
+    flex-grow: 1;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stepper__position-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(226, 226, 226, 0.96);
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.stepper__position-indicator--active {
+    background-color: rgb(253, 70, 70);
+}

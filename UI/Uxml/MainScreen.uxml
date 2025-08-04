@@ -1,0 +1,14 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="CategoriesBar" src="project://database/Packages/com.gaton.config-me/UI/Uxml/CategoriesBar.uxml?fileID=9197481963319205126&amp;guid=f5dc2efecccbd5447bbd39e2f18ffc04&amp;type=3#CategoriesBar" />
+    <Style src="project://database/Packages/com.gaton.config-me/UI/Uss/Buttons.uss?fileID=7433441132597879392&amp;guid=2addfbc06ab9a9542bc9e66b90a60ad2&amp;type=3#Buttons" />
+    <Style src="project://database/Packages/com.gaton.config-me/UI/Uss/Background.uss?fileID=7433441132597879392&amp;guid=e57ea65a113b9194cbf1a798952102cc&amp;type=3#Background" />
+    <Style src="project://database/Packages/com.gaton.config-me/UI/CustomComponents/Stepper/Stepper.uss?fileID=7433441132597879392&amp;guid=8b301708b8111a24bad15bca1fdca8e2&amp;type=3#Stepper" />
+    <Style src="project://database/Packages/com.gaton.config-me/UI/Uss/Text.uss?fileID=7433441132597879392&amp;guid=d53b8365cc3b28543be3a37d9fb790dc&amp;type=3#Text" />
+    <ui:VisualElement name="menu__container" style="flex-grow: 1;">
+        <ui:VisualElement name="menu__background" class="menu__background" style="flex-grow: 1;" />
+        <ui:VisualElement name="menu__group" style="flex-grow: 1;">
+            <ui:Instance template="CategoriesBar" name="CategoriesBar" />
+            <ui:VisualElement name="parameters__group" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

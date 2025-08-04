@@ -1,0 +1,25 @@
+{
+  "name": "com.gaton.config-me",
+  "version": "0.0.1",
+  "displayName": "ConfigMe",
+  "description": "ConfigMe is a Unity package for quickly adding a settings menu to your game. Use built-in options out of the box, or define your own settings, categories, and layouts to fit your needs.",
+  "unity": "2019.1",
+  "changelogUrl": "https://github.com/andre-gp/ConfigMe/blob/main/CHANGELOG.md",
+  "license": "MIT",
+  "licensesUrl": "https://github.com/andre-gp/ConfigMe/blob/main/LICENSE.md",
+  "keywords": [
+    "settings",
+    "options",
+    "config",
+    "configuration",
+    "menu",
+    "tweak"
+  ],
+  "author": {
+    "name": "Andre Pacheco",
+    "email": "andregoncalvespacheco@hotmail.com"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
+}
