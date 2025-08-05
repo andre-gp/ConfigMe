@@ -44,11 +44,7 @@ namespace ConfigMe
         protected abstract void InitElement(VisualElement root);
 
         public abstract object GetCurrentValue();
-        public void ApplyValue(JObject jObj)
-        {
-            ApplyValue(jObj[saveKey].ToObject<object>());
-        }
-        public abstract void ApplyValue(object obj);
+        public abstract void ApplyValue(JObject jObj);
         public abstract void SetWithoutNotify(object obj);
 
         public VisualElement InstantiateElement()

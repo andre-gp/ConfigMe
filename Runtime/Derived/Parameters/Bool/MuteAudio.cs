@@ -7,7 +7,7 @@ namespace ConfigMe
     {
         public override void ApplyValue(bool value)
         {
-            Debug.Log($"Mutei: {value}");
+            Debug.Log("Muted : " + value);
         }
     }
 }

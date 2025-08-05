@@ -7,13 +7,13 @@ namespace ConfigMe
     {
         public string label;
         public List<string> choices;
-        public int defaultValue;
+        public int currentValue;
 
-        public ChoicesParameterData(string label, List<string> choices, int defaultValue)
+        public ChoicesParameterData(string label, List<string> choices, int currentValue)
         {
             this.label = label;
             this.choices = choices;
-            this.defaultValue = defaultValue;
+            this.currentValue = currentValue;
         }
     }
 }

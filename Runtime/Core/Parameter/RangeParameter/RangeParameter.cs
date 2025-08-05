@@ -29,9 +29,9 @@ namespace ConfigMe
             
         }
 
-        public override void ApplyValue(object obj)
+        public override void ApplyValue(JObject jObj)
         {
-            ApplyValue((T)obj);
+            ApplyValue(jObj[saveKey].ToObject<T>());
         }
 
         protected override void InitElement(VisualElement root)
@@ -41,7 +41,7 @@ namespace ConfigMe
             baseSlider.label = this.parameterName;
             baseSlider.lowValue = this.lowValue;
             baseSlider.highValue = this.highValue;
-            baseSlider.value = this.defaultValue;
+            baseSlider.value = this.currentValue;
 
             baseSlider.RegisterValueChangedCallback(evt => 
             {
@@ -61,7 +61,8 @@ namespace ConfigMe
 
         public override void SetWithoutNotify(object obj)
         {
-            setComponentsWithoutNotify?.Invoke((T)obj);
+            currentValue = ((T)obj);
+            setComponentsWithoutNotify?.Invoke(currentValue);
         }
     }
 }

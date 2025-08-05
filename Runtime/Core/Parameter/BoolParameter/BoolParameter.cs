@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,7 +36,7 @@ namespace ConfigMe
         {
             FillBaseField(root);
 
-            int defaultIndex = defaultValue ? 1 : 0;
+            int defaultIndex = ParseToInt(currentValue);
 
             ChoicesParameterData optionsParameterData
                 = new ChoicesParameterData(parameterName, new List<string>() { labelWhenFalse, labelWhenTrue }, defaultIndex);
@@ -43,12 +44,15 @@ namespace ConfigMe
             FillDropdown(root, optionsParameterData);
 
             FillStepper(root, optionsParameterData);
+
+            FillSliderInt(root);
         }
 
 
         public override void SetWithoutNotify(object obj)
         {
-            setComponentsWithoutNotify?.Invoke((bool)obj);
+            currentValue = (bool)obj;
+            setComponentsWithoutNotify?.Invoke(currentValue);
         }
         
         public override object GetCurrentValue()
@@ -56,9 +60,9 @@ namespace ConfigMe
             return currentValue;
         }
 
-        public override void ApplyValue(object obj)
+        public override void ApplyValue(JObject jObj)
         {
-            ApplyValue((bool)obj);
+            ApplyValue(jObj[saveKey].ToObject<bool>());
         }
         
         void FillBaseField(VisualElement root)
@@ -85,14 +89,14 @@ namespace ConfigMe
 
             dropdown.label = data.label;
             dropdown.choices = data.choices;
-            dropdown.index = data.defaultValue;
+            dropdown.index = data.currentValue;
 
             dropdown.RegisterValueChangedCallback(evt =>
             {
-                ValueChanged(dropdown.index == 1);                
+                ValueChanged(ParseToBool(dropdown.index));                
             });
 
-            setComponentsWithoutNotify += evt => { dropdown.SetValueWithoutNotify(dropdown.choices[evt == true ? 1 : 0]); };
+            setComponentsWithoutNotify += evt => { dropdown.SetValueWithoutNotify(dropdown.choices[ParseToInt(evt)]); };
         }
 
         void FillStepper(VisualElement root, ChoicesParameterData data)
@@ -104,16 +108,56 @@ namespace ConfigMe
 
             stepper.label = data.label;
             stepper.Choices = data.choices;
-            stepper.value = data.defaultValue;
+            stepper.value = data.currentValue;
 
             stepper.RegisterValueChangedCallback(evt =>
             {
-                ValueChanged(stepper.value == 1);
+                ValueChanged(ParseToBool(stepper.value));
             });
 
-            setComponentsWithoutNotify += evt => { stepper.SetValueWithoutNotify(evt == true ? 1 : 0); };
+            setComponentsWithoutNotify += newValue => { stepper.SetValueWithoutNotify(ParseToInt(newValue)); };
         }
 
+
+        void FillSliderInt(VisualElement root)
+        {
+            var sliderInt = root.Q<SliderInt>();
+
+            if (sliderInt == null)
+                return;
+
+            sliderInt.lowValue = 0;
+            sliderInt.highValue = 1;
+            sliderInt.value = ParseToInt(defaultValue);
+
+            sliderInt.RegisterValueChangedCallback(evt => { ValueChanged(ParseToBool(evt.newValue) ); });
+
+            setComponentsWithoutNotify += newValue =>
+            {
+                sliderInt.SetValueWithoutNotify(ParseToInt(newValue));
+                SetLabel(sliderInt, newValue);
+            };
+
+            SetLabel(sliderInt, defaultValue);
+
+            sliderInt.showInputField = false;
+        }
+
+        void SetLabel(SliderInt slider, bool value)
+        {
+            string state = value ? labelWhenTrue : labelWhenFalse;
+            slider.label = $"{parameterName} ({state})";
+        }
+
+        private int ParseToInt(bool value)
+        {
+            return value ? 1 : 0;
+        }
+
+        private bool ParseToBool(int value)
+        {
+            return value == 1;
+        }
     }
 
 }

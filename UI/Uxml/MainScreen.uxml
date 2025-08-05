@@ -9,6 +9,7 @@
         <ui:VisualElement name="menu__group" style="flex-grow: 1;">
             <ui:Instance template="CategoriesBar" name="CategoriesBar" />
             <ui:VisualElement name="parameters__group" style="flex-grow: 1;" />
+            <ui:Button text="Apply Changes" name="ApplyChangesButton" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -32,19 +32,21 @@ namespace ConfigMe
             
         }
 
-        public override void ApplyValue(object obj)
-        {           
-            ApplyValue((T)obj);
+        public override void ApplyValue(JObject jObj)
+        {
+            ApplyValue(jObj[saveKey].ToObject<T>());
         }
 
         public override void SetWithoutNotify(object obj)
         {
+            currentIndex = labeledValues.FindIndex(x => x.value.Equals(obj));
+
             setComponentsWithoutNotify?.Invoke((T)obj);
         }
 
         protected override void InitElement(VisualElement root)
         {
-            ChoicesParameterData data = new ChoicesParameterData(parameterName, GetChoices, defaultOption);
+            ChoicesParameterData data = new ChoicesParameterData(parameterName, GetChoices, this.currentIndex);
 
             FillPopupField(root, data);
 
@@ -65,7 +67,7 @@ namespace ConfigMe
 
             dropdown.label = data.label;
             dropdown.choices = data.choices;
-            dropdown.index = data.defaultValue;
+            dropdown.index = data.currentValue;
 
             dropdown.RegisterValueChangedCallback(evt =>
             {
@@ -92,7 +94,7 @@ namespace ConfigMe
 
             stepper.label = data.label;
             stepper.Choices = data.choices;
-            stepper.value = data.defaultValue;
+            stepper.value = data.currentValue;
 
             stepper.RegisterValueChangedCallback(evt =>
             {

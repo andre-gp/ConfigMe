@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 namespace ConfigMe
 {
@@ -32,18 +33,20 @@ namespace ConfigMe
 
         private void OnParameterChanged(Parameter changedParameter, object value)
         {
-            changedParameter.ApplyValue(value);
+            currentSettings[changedParameter.SaveKey] = value.ToString();
+
+            //if(autoUpdatePreview)
+            changedParameter.ApplyValue(currentSettings);
 
             // Checks for other parameters with the same key and updates them silently with the new value.
             foreach (var parameter in parameters)
             {
-                if(parameter.SaveKey == changedParameter.SaveKey)
+                if (parameter.SaveKey == changedParameter.SaveKey)
                 {
                     parameter.SetWithoutNotify(value);
                 }
             }
 
-            currentSettings[changedParameter.SaveKey] = value.ToString();
         }
 
         private void LoadSettings()
@@ -61,7 +64,11 @@ namespace ConfigMe
                 SaveOnDisk(currentSettings);
             }
 
+            SetAllWithoutNotify(currentSettings);
+
             ApplySettings(currentSettings);
+
+            appliedSettings = new JObject(currentSettings);
         }
 
         private void SaveOnDisk(JObject settings)
@@ -69,9 +76,15 @@ namespace ConfigMe
             SaveObject?.Invoke(settings);
         }
 
-        private void Start()
+        private void SetAllWithoutNotify(JObject jObj)
         {
-            
+            foreach (var parameter in parameters)
+            {
+                if (jObj.ContainsKey(parameter.SaveKey))
+                {
+                    parameter.SetWithoutNotify(jObj[parameter.SaveKey].ToObject<object>());
+                }
+            }
         }
 
         public JObject GenerateSettings()
@@ -88,14 +101,35 @@ namespace ConfigMe
             return settings;
         }
 
+        public void ApplyAndSaveCurrentSettings()
+        {
+            ApplySettings(currentSettings);
+
+            SaveOnDisk(currentSettings);
+
+            appliedSettings = new JObject(currentSettings);
+        }
+
+        public void RevertCurrentSettings()
+        {
+            currentSettings = new JObject(appliedSettings);
+
+            ApplySettings(currentSettings);
+        }
+
         public void ApplySettings(JObject json)
         {
+            HashSet<string> appliedKeys = new HashSet<string>();
+
             foreach (var parameter in parameters)
             {
-                parameter.ApplyValue(json);
-            }
+                if (!appliedKeys.Contains(parameter.SaveKey))
+                {
+                    parameter.ApplyValue(json);
 
-            appliedSettings = new JObject(json);
+                    appliedKeys.Add(parameter.SaveKey);
+                }
+            }
         }
 
         private void OnDestroy()

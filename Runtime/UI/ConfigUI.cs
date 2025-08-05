@@ -50,6 +50,16 @@ namespace ConfigMe
                 }
             }
 
+            var btn = document.rootVisualElement.Q<Button>("ApplyChangesButton");
+
+            if(btn != null)
+            {
+                btn.clickable.clicked += () =>
+                {
+                    GetComponent<ConfigManager>().ApplyAndSaveCurrentSettings();
+                };
+            }
+
             OnClickTabButton(selections[0]);
         }
 
