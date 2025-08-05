@@ -11,10 +11,19 @@ namespace ConfigMe
 
         public void LoadObject(JObject objToPopulate)
         {
+
             if (File.Exists(saveInformation.GetSavePath()))
             {
-                objToPopulate = JObject.Parse(File.ReadAllText(saveInformation.GetSavePath()));                
-            }            
+
+                JObject newObj = JObject.Parse(File.ReadAllText(saveInformation.GetSavePath()));
+
+                // Manually copy values to preserve the original reference of objToPopulate.
+                foreach (var item in newObj)
+                {
+                    objToPopulate[item.Key] = item.Value;
+                }
+
+            }           
         }
 
         public void SaveFile(JObject objToSave)

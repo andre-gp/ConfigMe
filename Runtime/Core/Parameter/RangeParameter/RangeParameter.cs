@@ -59,9 +59,9 @@ namespace ConfigMe
             return currentValue;
         }
 
-        public override void SetWithoutNotify(object obj)
+        public override void SetWithoutNotify(JObject jObj)
         {
-            currentValue = ((T)obj);
+            currentValue = jObj[saveKey].ToObject<T>();
             setComponentsWithoutNotify?.Invoke(currentValue);
         }
     }

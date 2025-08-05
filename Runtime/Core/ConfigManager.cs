@@ -43,7 +43,7 @@ namespace ConfigMe
             {
                 if (parameter.SaveKey == changedParameter.SaveKey)
                 {
-                    parameter.SetWithoutNotify(value);
+                    parameter.SetWithoutNotify(currentSettings);
                 }
             }
 
@@ -51,7 +51,7 @@ namespace ConfigMe
 
         private void LoadSettings()
         {
-            currentSettings = null;
+            currentSettings = GenerateSettings();
 
             LoadObject?.Invoke(currentSettings);
 
@@ -80,10 +80,7 @@ namespace ConfigMe
         {
             foreach (var parameter in parameters)
             {
-                if (jObj.ContainsKey(parameter.SaveKey))
-                {
-                    parameter.SetWithoutNotify(jObj[parameter.SaveKey].ToObject<object>());
-                }
+                parameter.SetWithoutNotify(jObj);
             }
         }
 
@@ -95,8 +92,6 @@ namespace ConfigMe
             {
                 settings[parameter.SaveKey] = parameter.GetCurrentValue().ToString();
             }
-
-            Debug.Log(settings.ToString());
 
             return settings;
         }

@@ -45,7 +45,7 @@ namespace ConfigMe
 
         public abstract object GetCurrentValue();
         public abstract void ApplyValue(JObject jObj);
-        public abstract void SetWithoutNotify(object obj);
+        public abstract void SetWithoutNotify(JObject jObj);
 
         public VisualElement InstantiateElement()
         {

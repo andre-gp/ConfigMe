@@ -33,15 +33,17 @@ namespace ConfigMe
         }
 
         public override void ApplyValue(JObject jObj)
-        {
+        {            
             ApplyValue(jObj[saveKey].ToObject<T>());
         }
 
-        public override void SetWithoutNotify(object obj)
+        public override void SetWithoutNotify(JObject jObj)
         {
-            currentIndex = labeledValues.FindIndex(x => x.value.Equals(obj));
+            T value = jObj[saveKey].ToObject<T>();
 
-            setComponentsWithoutNotify?.Invoke((T)obj);
+            currentIndex = labeledValues.FindIndex(x => x.value.Equals(value));
+
+            setComponentsWithoutNotify?.Invoke(value);
         }
 
         protected override void InitElement(VisualElement root)

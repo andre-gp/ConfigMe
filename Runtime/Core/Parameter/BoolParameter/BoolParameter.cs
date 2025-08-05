@@ -49,9 +49,9 @@ namespace ConfigMe
         }
 
 
-        public override void SetWithoutNotify(object obj)
+        public override void SetWithoutNotify(JObject jObj)
         {
-            currentValue = (bool)obj;
+            currentValue = jObj[saveKey].ToObject<bool>();
             setComponentsWithoutNotify?.Invoke(currentValue);
         }
         
@@ -73,7 +73,7 @@ namespace ConfigMe
                 return;
 
             toggle.label = this.parameterName;
-            toggle.value = defaultValue;
+            toggle.value = currentValue;
 
             toggle.RegisterValueChangedCallback(evt => ValueChanged(evt.newValue));
 
@@ -128,7 +128,7 @@ namespace ConfigMe
 
             sliderInt.lowValue = 0;
             sliderInt.highValue = 1;
-            sliderInt.value = ParseToInt(defaultValue);
+            sliderInt.value = ParseToInt(currentValue);
 
             sliderInt.RegisterValueChangedCallback(evt => { ValueChanged(ParseToBool(evt.newValue) ); });
 
