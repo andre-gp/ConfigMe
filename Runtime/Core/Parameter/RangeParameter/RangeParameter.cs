@@ -5,11 +5,11 @@ using UnityEngine.UIElements;
 
 namespace ConfigMe
 {
-    public abstract class RangeParameter<T> : Parameter where T : IComparable<T>
+    public abstract class RangeParameter<T> : BaseRangeParameter where T : IComparable<T>
     {
-        [SerializeField] T lowValue = default;
-        [SerializeField] T highValue = default;
-        [SerializeField] T defaultValue = default;
+        [SerializeField] protected T lowValue = default;
+        [SerializeField] protected T highValue = default;
+        [SerializeField] protected T defaultValue = default;
 
         T currentValue;
 

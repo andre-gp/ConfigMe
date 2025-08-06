@@ -31,6 +31,13 @@ namespace ConfigMe
             LoadSettings();
         }
 
+        private void Start()
+        {
+            ApplySettings(currentSettings);
+
+            appliedSettings = new JObject(currentSettings);
+        }
+
         private void OnParameterChanged(Parameter changedParameter, object value)
         {
             currentSettings[changedParameter.SaveKey] = value.ToString();
@@ -65,10 +72,6 @@ namespace ConfigMe
             }
 
             SetAllWithoutNotify(currentSettings);
-
-            ApplySettings(currentSettings);
-
-            appliedSettings = new JObject(currentSettings);
         }
 
         private void SaveOnDisk(JObject settings)

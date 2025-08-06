@@ -22,7 +22,12 @@ namespace ConfigMe
         /// Primarly subscribed to by the ConfigManager to detect component changes.
         /// </summary>
         public event Action<Parameter, object> OnValueChanged;
-        
+
+        protected void Reset()
+        {
+            Debug.Log($"Parameter Reset: {this.name}");
+        }
+
 
         /// <summary>
         /// Override this to initialize parameters that require setup at startup.

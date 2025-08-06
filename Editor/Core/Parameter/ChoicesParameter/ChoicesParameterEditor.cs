@@ -1,3 +1,4 @@
+using ConfigMe.EditorCM.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -18,39 +19,31 @@ namespace ConfigMe.EditorCM
         SerializedProperty defaultOptionProperty;
 
         public override VisualElement CreateInspectorGUI()
-        {
+        {            
             optionsParameter = target as BaseChoicesParameter;
 
             VisualElement root = new VisualElement();
 
-            /* --- PARAMETER NAME --- */
-            PropertyField name = new PropertyField(serializedObject.FindProperty("parameterName"));
-            root.Add(name);
+            /* --- SCRIPTABLE OBJ --- */
+            ObjectField scriptableField = new ObjectField();
+            scriptableField.value = optionsParameter;
+            scriptableField.enabledSelf = false;
+            root.Add(scriptableField);
 
-            /* --- SAVE KEY --- */
-            PropertyField saveKey = new PropertyField(serializedObject.FindProperty("saveKey"));
-            root.Add(saveKey);
+            root.Add(new Separator());
 
-            /* --- UXML COMPONENT --- */
-            PropertyField component = new PropertyField(serializedObject.FindProperty("component"));
-            root.Add(component);
+            /* --- PARAMETER FIELDS --- */
+            ParameterEditor.AddParameterFields(root, serializedObject);
 
+            //root.Add(new Separator());
 
             /* --- DEFAULT OPTION GROUP --- */
-            VisualElement defaultOptionGroup = new VisualElement();
+            VisualElement defaultOptionGroup = ParameterEditor.GetSpecialGroupElement();
             root.Add(defaultOptionGroup);
 
-            defaultOptionGroup.style.marginTop = 10;
-            defaultOptionGroup.style.marginBottom = 10;
-            defaultOptionGroup.style.paddingRight = 10;
-            defaultOptionGroup.style.paddingLeft = 10;
-            defaultOptionGroup.style.paddingTop = 10;
-            defaultOptionGroup.style.paddingBottom = 10;
-            defaultOptionGroup.style.backgroundColor = new Color(0.72f, 0.9f, 1f);
-
-            Label defaultOptionTitle = new Label("<b>Default Option</b>");
+            Label defaultOptionTitle = new Label("Default Option");
             defaultOptionTitle.style.marginLeft = 2;
-            defaultOptionTitle.style.color = new Color(0.1f, 0.1f, 0.1f);
+            //defaultOptionTitle.style.color = new Color(0.1f, 0.1f, 0.1f);
             defaultOptionGroup.Add(defaultOptionTitle);
 
             defaultOptionField = new DropdownField();
@@ -71,6 +64,13 @@ namespace ConfigMe.EditorCM
 
 
             root.Add(labeledValues);
+
+            root.Add(new Separator());
+
+            /* --- DRAW DERIVED CLASSES PROPERTIES --- */
+            ParameterEditor.AddDerivedClassesProperties(root, serializedObject, typeof(ChoicesParameter<>));
+
+
 
             return root;
         }
