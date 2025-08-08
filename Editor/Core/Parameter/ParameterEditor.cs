@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -10,6 +12,8 @@ namespace ConfigMe.EditorCM
 {
     public class ParameterEditor
     {
+        public const string DEFAULT_COMPONENTS_SEARCH_FILTER = "glob:\"Packages/com.gaton.config-me/UI/Uxml/DefaultComponents/*.uxml\"";
+
         const string MISSING_FIELDS_MESSAGE = "Fill in all required fields.";
         public static void AddParameterFields(VisualElement root, SerializedObject serializedObject)
         {
@@ -23,13 +27,72 @@ namespace ConfigMe.EditorCM
             PropertyField saveKey = new PropertyField(saveKeyProperty);
             root.Add(saveKey);
 
-
             /* --- UXML COMPONENT --- */
             SerializedProperty componentProperty = serializedObject.FindProperty("component");
-            PropertyField component = new PropertyField(componentProperty);
-            root.Add(component);
+            PropertyField componentField = new PropertyField(componentProperty);
 
-            
+            Parameter parameter = serializedObject.targetObject as Parameter;
+            VisualTreeAsset selectedComponent = serializedObject.FindProperty("component").boxedValue as VisualTreeAsset;
+
+            List<VisualTreeAsset> defaultComponents = GetDefaultComponents();
+            int currentChoice = -1;
+
+            for (int i = 0; i < defaultComponents.Count; i++)
+            {
+                if (defaultComponents[i] == selectedComponent)
+                {
+                    currentChoice = i;
+                }                
+            }
+
+            List<string> choices = new List<string>();
+            choices.AddRange(defaultComponents.Select(x => 
+            {
+                // Regex to add white spaces to 'CamelCasedNames -> Camel Cased Names'
+                return Regex.Replace(x.name.Replace("Parameter", ""), "([a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z]))", "$1 ");
+            }));
+
+            choices.Add("Custom");
+
+            if(currentChoice < 0)
+            {
+                currentChoice = choices.Count - 1;
+            }
+
+            DropdownField field = new DropdownField(choices, currentChoice);
+
+            Action<int> OnUpdateFieldValue = newIndex =>
+            {
+                componentField.style.display = newIndex == choices.Count - 1 ? DisplayStyle.Flex : DisplayStyle.None;
+
+                if (newIndex == choices.Count - 1)
+                {
+                    VisualTreeAsset selectedComponent = serializedObject.FindProperty("component").boxedValue as VisualTreeAsset;
+
+                    foreach (var defaultComp in defaultComponents)
+                    {
+                        if (selectedComponent == defaultComp)
+                        {
+                            componentProperty.objectReferenceValue = null;
+                            serializedObject.ApplyModifiedProperties();
+                            break;
+                        }
+                    }
+
+                    Debug.Log("Custom");
+                    return;
+                }
+
+                componentProperty.objectReferenceValue = defaultComponents[newIndex];
+                serializedObject.ApplyModifiedProperties();
+            };
+
+            OnUpdateFieldValue?.Invoke(currentChoice);
+            field.RegisterValueChangedCallback(evt => { OnUpdateFieldValue?.Invoke(field.index); });
+
+            root.Add(field);
+            root.Add(componentField);
+
 
             HelpBox warningNoSaveKey = new HelpBox(MISSING_FIELDS_MESSAGE, HelpBoxMessageType.Warning);
             warningNoSaveKey.Q<Label>().style.fontSize = 12;
@@ -45,7 +108,27 @@ namespace ConfigMe.EditorCM
 
             name.RegisterValueChangeCallback(evt => { UpdateWarningVisibility(); });
             saveKey.RegisterValueChangeCallback(evt => { UpdateWarningVisibility(); });
-            component.RegisterValueChangeCallback(evt => { UpdateWarningVisibility(); });
+            componentField.RegisterValueChangeCallback(evt => { UpdateWarningVisibility(); });
+        }
+
+        private static List<VisualTreeAsset> GetDefaultComponents()
+        {
+            string[] defaultComponentsFilters = new string[] { DEFAULT_COMPONENTS_SEARCH_FILTER };
+
+            var defaultComponents = new List<VisualTreeAsset>();
+
+            for (int i = 0; i < defaultComponentsFilters.Length; i++)
+            {
+                var guids = AssetDatabase.FindAssets(defaultComponentsFilters[i]);
+                var paths = guids.Select(x => AssetDatabase.GUIDToAssetPath(x));
+
+                foreach (var path in paths)
+                {
+                    defaultComponents.Add(AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path));
+                }
+            }
+
+            return defaultComponents;
         }
 
         static bool IsMissingInput(SerializedProperty name, SerializedProperty saveKey, SerializedProperty comp)

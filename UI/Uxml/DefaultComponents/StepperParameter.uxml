@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="Stepper" src="project://database/Packages/com.gaton.config-me/UI/CustomComponents/Stepper/Stepper.uxml?fileID=9197481963319205126&amp;guid=abcae898ade19354dac9cf1369da6d40&amp;type=3#Stepper" />
+    <Style src="project://database/Packages/com.gaton.config-me/UI/CustomComponents/Stepper/Stepper.uss?fileID=7433441132597879392&amp;guid=8b301708b8111a24bad15bca1fdca8e2&amp;type=3#Stepper" />
+    <Style src="project://database/Packages/com.gaton.config-me/UI/Uss/Text.uss?fileID=7433441132597879392&amp;guid=d53b8365cc3b28543be3a37d9fb790dc&amp;type=3#Text" />
+    <ui:Instance template="Stepper" />
+</ui:UXML>
