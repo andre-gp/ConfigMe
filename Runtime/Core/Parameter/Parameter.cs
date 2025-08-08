@@ -35,7 +35,6 @@ namespace ConfigMe
         public virtual void InitParameter()
         {
             OnValueChanged = null;
-            Debug.Log($"Initialized: {parameterName}");
         }
 
         /// <summary>

@@ -63,9 +63,7 @@ namespace ConfigMe
             LoadObject?.Invoke(currentSettings);
 
             if (currentSettings == null)
-            {
-                Debug.Log("[ConfigMe] Save file not found. Creating default settings.");
-
+            {               
                 currentSettings = GenerateSettings();
 
                 SaveOnDisk(currentSettings);

@@ -43,6 +43,11 @@ namespace ConfigMe
 
             currentIndex = labeledValues.FindIndex(x => x.value.Equals(value));
 
+            if (currentIndex < 0)
+            {
+                ConfigMeLogger.LogError($"Couldn't find the option <b>[{value}]</b> in the <b>[{name}]</b> choices", this);
+            }
+
             setComponentsWithoutNotify?.Invoke(value);
         }
 
