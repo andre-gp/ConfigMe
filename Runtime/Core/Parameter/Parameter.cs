@@ -62,6 +62,5 @@ namespace ConfigMe
         {
             OnValueChanged?.Invoke(this, newValue);
         }
-
     }
 }

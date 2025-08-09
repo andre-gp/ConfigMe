@@ -15,7 +15,16 @@ namespace ConfigMe.EditorCM
         public const string DEFAULT_COMPONENTS_SEARCH_FILTER = "glob:\"Packages/com.gaton.config-me/UI/Uxml/DefaultComponents/*.uxml\"";
 
         const string MISSING_FIELDS_MESSAGE = "Fill in all required fields.";
-        public static void AddParameterFields(VisualElement root, SerializedObject serializedObject)
+
+        public static void AddScriptableObjectField(VisualElement root, ScriptableObject obj)
+        {
+            ObjectField scriptableField = new ObjectField();
+            scriptableField.value = obj;
+            scriptableField.enabledSelf = false;
+            root.Add(scriptableField);
+        }
+
+        public static void AddParameterFields(VisualElement root, SerializedObject serializedObject, string[] allowedDefaultComponents)
         {
             /* --- PARAMETER NAME --- */
             SerializedProperty nameProperty = serializedObject.FindProperty("parameterName");
@@ -34,7 +43,7 @@ namespace ConfigMe.EditorCM
             Parameter parameter = serializedObject.targetObject as Parameter;
             VisualTreeAsset selectedComponent = serializedObject.FindProperty("component").boxedValue as VisualTreeAsset;
 
-            List<VisualTreeAsset> defaultComponents = GetDefaultComponents();
+            List<VisualTreeAsset> defaultComponents = GetDefaultComponents(allowedDefaultComponents);
             int currentChoice = -1;
 
             for (int i = 0; i < defaultComponents.Count; i++)
@@ -42,11 +51,12 @@ namespace ConfigMe.EditorCM
                 if (defaultComponents[i] == selectedComponent)
                 {
                     currentChoice = i;
-                }                
+                }
             }
 
             List<string> choices = new List<string>();
-            choices.AddRange(defaultComponents.Select(x => 
+
+            choices.AddRange(defaultComponents.Select(x =>
             {
                 // Regex to add white spaces to 'CamelCasedNames -> Camel Cased Names'
                 return Regex.Replace(x.name.Replace("Parameter", ""), "([a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z]))", "$1 ");
@@ -54,19 +64,19 @@ namespace ConfigMe.EditorCM
 
             choices.Add("Custom");
 
-            if(currentChoice < 0)
+            if (currentChoice < 0)
             {
                 currentChoice = choices.Count - 1;
             }
 
-            DropdownField field = new DropdownField(choices, currentChoice);
+            DropdownField field = new DropdownField("Component Type", choices, currentChoice);
 
             Action<int> OnUpdateFieldValue = newIndex =>
             {
                 componentField.style.display = newIndex == choices.Count - 1 ? DisplayStyle.Flex : DisplayStyle.None;
 
-                if (newIndex == choices.Count - 1)
-                {
+                if (newIndex == choices.Count - 1) // If Selecting Custom Component
+                {                    
                     VisualTreeAsset selectedComponent = serializedObject.FindProperty("component").boxedValue as VisualTreeAsset;
 
                     foreach (var defaultComp in defaultComponents)
@@ -79,7 +89,6 @@ namespace ConfigMe.EditorCM
                         }
                     }
 
-                    Debug.Log("Custom");
                     return;
                 }
 
@@ -111,7 +120,7 @@ namespace ConfigMe.EditorCM
             componentField.RegisterValueChangeCallback(evt => { UpdateWarningVisibility(); });
         }
 
-        private static List<VisualTreeAsset> GetDefaultComponents()
+        private static List<VisualTreeAsset> GetDefaultComponents(string[] allowedDefaultComponents)
         {
             string[] defaultComponentsFilters = new string[] { DEFAULT_COMPONENTS_SEARCH_FILTER };
 
@@ -124,7 +133,12 @@ namespace ConfigMe.EditorCM
 
                 foreach (var path in paths)
                 {
-                    defaultComponents.Add(AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path));
+                    var asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
+
+                    if (allowedDefaultComponents.Contains(asset.name))
+                    {
+                        defaultComponents.Add(asset);
+                    }
                 }
             }
 

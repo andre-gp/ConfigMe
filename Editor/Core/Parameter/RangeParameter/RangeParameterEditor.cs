@@ -18,15 +18,12 @@ namespace ConfigMe.EditorCM
             VisualElement root = new VisualElement();
 
             /* --- SCRIPTABLE OBJ --- */
-            ObjectField scriptableField = new ObjectField();
-            scriptableField.value = baseRangeParameter;
-            scriptableField.enabledSelf = false;
-            root.Add(scriptableField);
+            ParameterEditor.AddScriptableObjectField(root, baseRangeParameter);
 
             root.Add(new Separator());
 
             /* --- PARAMETER FIELDS --- */
-            ParameterEditor.AddParameterFields(root, serializedObject);
+            ParameterEditor.AddParameterFields(root, serializedObject, new string[] { ConfigMeEditor.COMPONENT_FLOAT_SLIDER, ConfigMeEditor.COMPONENT_INT_SLIDER });
 
             /* --- DEFAULT VALUE --- */
             VisualElement defaultValueGroup = ParameterEditor.GetSpecialGroupElement();
