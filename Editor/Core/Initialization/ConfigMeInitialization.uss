@@ -1,0 +1,57 @@
+.unity-tab-view__content-viewport {
+    height: 100%;
+}
+
+.unity-tab-view__header-container {
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-start;
+}
+
+.unity-tab__header-underline {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    right: 0;
+    bottom: 0;
+    scale: 1 1;
+    height: 100%;
+    width: 3px;
+}
+
+.unity-tab-view__previous-button {
+    display: none;
+    background-image: none;
+    visibility: hidden;
+}
+
+.unity-tab-view__next-button {
+    background-image: none;
+    background-color: rgb(255, 0, 0);
+    opacity: 1;
+    visibility: hidden;
+    display: none;
+}
+
+.unity-tab__header {
+    font-size: 16px;
+    width: 100%;
+    padding-bottom: 51px;
+}
+
+.unity-tab__header-label {
+    top: 100%;
+}
+
+.unity-tab-view__content-container {
+    height: 100%;
+}
+
+.unity-tab {
+    height: 100%;
+}
+
+.unity-tab__content-container {
+    flex-direction: row;
+    height: 100%;
+}
