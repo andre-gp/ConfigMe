@@ -1,0 +1,25 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.gaton.config-me/Editor/Core/MainWindow/ConfigMeInitialization.uss?fileID=7433441132597879392&amp;guid=93fec81b6d34e114387463904278684e&amp;type=3#ConfigMeInitialization" />
+    <ui:TabView name="TabView" style="flex-direction: row; height: 100%; align-items: flex-start;">
+        <ui:Tab label="Definitions" name="tab-definitions">
+            <ui:VisualElement name="tab__content-separator" style="flex-grow: 1; width: 2px; height: 100%; background-color: rgb(75, 75, 75);" />
+            <ui:VisualElement name="tab-definitions__content-container" class="tab__content-container" />
+        </ui:Tab>
+        <ui:Tab label="Configuration" name="tab-configuration">
+            <ui:VisualElement name="tab__content-separator" class="tab__content-separator" />
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Toggle label="Toggle" />
+            </ui:VisualElement>
+        </ui:Tab>
+        <ui:Tab label="Help" name="tab-help">
+            <ui:VisualElement name="tab__content-separator" class="tab__content-separator" />
+            <ui:Label text="ConfigManager -&gt; Singleton. Has Reference to all save templates&#10;ConfigDefinition -&gt; Collection of Parameters. Most games only need 1 save template (the settings one). You could create different templates for different configurations. e.g: settings file, gameplay customization file&#10;Parameter -&gt; A configuration. E.g:  V-Sync, Volume" style="white-space: normal;" />
+        </ui:Tab>
+        <ui:Tab label="Credits" name="tab-credits">
+            <ui:VisualElement name="tab__content-separator" class="tab__content-separator" />
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Toggle label="Toggle" />
+            </ui:VisualElement>
+        </ui:Tab>
+    </ui:TabView>
+</ui:UXML>

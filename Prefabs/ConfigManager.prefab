@@ -131,6 +131,7 @@ MonoBehaviour:
   - categoryName: Graphics
     parameters:
     - {fileID: 11400000, guid: a07806853f65ed048a60fb02569726fe, type: 2}
+    - {fileID: 11400000, guid: 4867636e7205baf478144eabd4584e88, type: 2}
     - {fileID: 11400000, guid: 2fb490e5146661c49b3aa5acf9c48009, type: 2}
   - categoryName: Audio
     parameters:

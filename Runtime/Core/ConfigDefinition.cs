@@ -2,8 +2,10 @@ using UnityEngine;
 
 namespace ConfigMe
 {
-    public class ConfigMeDefinition : ScriptableObject
+    public class ConfigDefinition : ScriptableObject
     {
+        [SerializeField] string definitionName;
+
         [SerializeField] Parameter[] parameters;
     }
 }
