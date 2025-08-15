@@ -13,8 +13,6 @@ namespace ConfigMe.EditorCM
         {
             static DefinitionsTrackerInitializer()
             {
-                Debug.Log("Initializing definitions tracker");
-
                 ForceRefreshDefinitions();
             }
         }
@@ -22,7 +20,7 @@ namespace ConfigMe.EditorCM
         private static List<ConfigDefinition> definitions = new List<ConfigDefinition>();
         public static IReadOnlyList<ConfigDefinition> Definitions => definitions;
 
-        public static event Action<List<ConfigDefinition>> OnChangeDefinitions;
+        public static event Action<List<ConfigDefinition>> OnChangeDefinitions = null;
 
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
@@ -46,7 +44,6 @@ namespace ConfigMe.EditorCM
                 {
                     OnChangeDefinitions?.Invoke(definitions);
                 }                
-
             }
         }
 

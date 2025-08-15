@@ -14,7 +14,7 @@ namespace ConfigMe.EditorCM
     {
         ScrollView definitionsScrollView;
 
-        public DefinitionsTab(VisualElement root)
+        public override void InitTab(VisualElement root)
         {
             var createDefinitionBtn = root.Q<Button>();
             createDefinitionBtn.clickable.clicked += CreateDefinition;

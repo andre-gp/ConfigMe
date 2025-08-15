@@ -7,6 +7,7 @@ MonoImporter:
   - m_ViewDataDictionary: {instanceID: 0}
   - mainWindow: {fileID: 9197481963319205126, guid: 15900ac263cba1a46b5234b5b65a0306, type: 3}
   - definitionsWindow: {fileID: 9197481963319205126, guid: d3e773b045f2b5d4cb955cca656f152d, type: 3}
+  - homeWindow: {fileID: 9197481963319205126, guid: d85131bc35bb0be45b2538fac2bb71a1, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

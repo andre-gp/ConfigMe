@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -11,10 +12,14 @@ namespace ConfigMe.EditorCM
 
         [SerializeField] private VisualTreeAsset definitionsWindow = null;
 
-        DefinitionsTab definitionsTab;
+        [SerializeField] private VisualTreeAsset homeWindow = null;
+
+        List<ConfigMeEditorTab> tabs;
 
         public ConfigMeWindow()
         {
+            tabs = new List<ConfigMeEditorTab>();
+
             EditorApplication.projectChanged += OnRefreshProject;
         }
 
@@ -25,7 +30,11 @@ namespace ConfigMe.EditorCM
 
         private void OnDestroy()
         {
-            definitionsTab.Dispose();
+            foreach (var tab in tabs)
+            {
+                tab.Dispose();
+            }
+
             EditorApplication.projectChanged -= OnRefreshProject;
         }
 
@@ -40,20 +49,25 @@ namespace ConfigMe.EditorCM
 
         public void CreateGUI()
         {
-            VisualElement root = rootVisualElement;
 
             VisualElement instantiatedMainWindow = mainWindow.Instantiate();
             instantiatedMainWindow.style.height = Length.Percent(100);
-            root.Add(instantiatedMainWindow);
 
 
-            var rootDefinitions = definitionsWindow.Instantiate();
-
-            definitionsTab = new DefinitionsTab(rootDefinitions);
+            rootVisualElement.Add(ConfigMeValidator.SetupWarning(instantiatedMainWindow));
 
 
-            root.Q<VisualElement>("tab-definitions__content-container").Add(rootDefinitions);
+            AddTab(new DefinitionsTab(), definitionsWindow, "tab-definitions__content-container");
+            AddTab(new HomeTab(), homeWindow, "tab-home__content-container");
+        }
 
+        void AddTab(ConfigMeEditorTab tab, VisualTreeAsset template, string containerName)
+        {
+            var tabRoot = template.Instantiate();
+            tab.InitTab(tabRoot);
+            tabs.Add(tab);
+
+            rootVisualElement.Q<VisualElement>(containerName).Add(tabRoot);
         }
     } 
 }

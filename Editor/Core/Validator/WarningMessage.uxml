@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.gaton.config-me/Editor/Core/Validator/WarningMessage.uss?fileID=7433441132597879392&amp;guid=ab0c27c25aeb48b488fbc0c04361f49e&amp;type=3#WarningMessage" />
+    <ui:VisualElement name="warning__content" style="flex-grow: 1; align-items: center; align-self: center;">
+        <ui:Label text="&lt;b&gt;ConfigManager not found!&lt;/b&gt;" name="warning__title-label" class="warning__title-label" />
+        <ui:Label text="If this is your first time using the package in this project, this is expected.&#10;&#10;Click the button below to create a ConfigManager and initialize the package." name="warning__description-label" class="warning__content-label" />
+        <ui:Button text="Initialize ConfigMe!" class="warning__content-label" style="flex-grow: 0; -unity-text-align: middle-center; font-size: 16px; flex-shrink: 1; padding-top: 29px; padding-right: 29px; padding-bottom: 29px; padding-left: 29px; margin-top: 28px; background-color: rgb(56, 91, 62); border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" />
+    </ui:VisualElement>
+</ui:UXML>
