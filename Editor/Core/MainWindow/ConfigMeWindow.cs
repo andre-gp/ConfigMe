@@ -49,7 +49,7 @@ namespace ConfigMe.EditorCM
 
             var rootDefinitions = definitionsWindow.Instantiate();
 
-            DefinitionsTab definitionsTab = new DefinitionsTab(rootDefinitions);            
+            definitionsTab = new DefinitionsTab(rootDefinitions);
 
 
             root.Q<VisualElement>("tab-definitions__content-container").Add(rootDefinitions);

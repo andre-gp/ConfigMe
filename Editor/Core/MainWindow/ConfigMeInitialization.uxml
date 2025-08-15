@@ -2,7 +2,7 @@
     <Style src="project://database/Packages/com.gaton.config-me/Editor/Core/MainWindow/ConfigMeInitialization.uss?fileID=7433441132597879392&amp;guid=93fec81b6d34e114387463904278684e&amp;type=3#ConfigMeInitialization" />
     <ui:TabView name="TabView" style="flex-direction: row; height: 100%; align-items: flex-start;">
         <ui:Tab label="Definitions" name="tab-definitions">
-            <ui:VisualElement name="tab__content-separator" style="flex-grow: 1; width: 2px; height: 100%; background-color: rgb(75, 75, 75);" />
+            <ui:VisualElement name="tab__content-separator" style="flex-grow: 1; width: 2px; height: 100%; background-color: rgb(75, 75, 75); flex-shrink: 0;" />
             <ui:VisualElement name="tab-definitions__content-container" class="tab__content-container" />
         </ui:Tab>
         <ui:Tab label="Configuration" name="tab-configuration">

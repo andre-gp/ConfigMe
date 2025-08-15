@@ -4,7 +4,7 @@ namespace ConfigMe
 {
     public class ConfigDefinition : ScriptableObject
     {
-        [SerializeField] string definitionName;
+        [SerializeField] string saveName = "settings.txt";
 
         [SerializeField] Parameter[] parameters;
     }

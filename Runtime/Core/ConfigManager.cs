@@ -13,6 +13,8 @@ namespace ConfigMe
 
         [SerializeField] UnityEvent<JObject> SaveObject;
 
+        [SerializeField] ConfigDefinition[] definitions;
+
         [SerializeField] Parameter[] parameters;
 
         JObject currentSettings;
