@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.gaton.config-me/Editor/UIElements/Uxml/CustomList.uss?fileID=7433441132597879392&amp;guid=873c27c4efef698428f7b40c667e819c&amp;type=3#CustomList" />
+    <ui:VisualElement class="custom-list" style="flex-grow: 1;">
+        <ui:Button text="+" name="Button" class="custom-list__button-add" />
+        <ui:ScrollView class="custom-list-scroll-view custom-list__scroll-view">
+            <ui:VisualElement name="VisualElement" class="custom-list-row-container" style="flex-grow: 1;">
+                <ui:Button text="X" class="custom-list__button-remove" />
+                <ui:Label text="Testing" class="custom-list__label" />
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,16 +1,29 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ConfigMe.EditorCM
 {
-    public class ConfigMeEditor
+    [InitializeOnLoad]
+    public static class ConfigMeEditor
     {
-        #region Default Components
+        private static StyleSheet customListStyleSheet;
+        public static StyleSheet CustomListStyleSheet => customListStyleSheet;
+
+        static ConfigMeEditor()
+        {
+            customListStyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(PACKAGE_FOLDER + "Editor/UIElements/Uxml/CustomList.uss");
+        }
+
+        #region Components
+
         public const string COMPONENT_DROPDOWN = "DropdownParameter";
         public const string COMPONENT_FLOAT_SLIDER = "FloatSliderParameter";
         public const string COMPONENT_INT_SLIDER = "IntSliderParameter";
         public const string COMPONENT_SLIDE_TOGGLE = "SlideToggleParameter";
         public const string COMPONENT_STEPPER = "StepperParameter";
         public const string COMPONENT_TOGGLE = "ToggleParameter";
+
         #endregion
 
         #region Paths

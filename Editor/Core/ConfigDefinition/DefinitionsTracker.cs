@@ -49,7 +49,7 @@ namespace ConfigMe.EditorCM
 
         private static void ForceRefreshDefinitions()
         {
-            var definitionsGUIDs = AssetDatabase.FindAssets("t:ConfigDefinition");
+            var definitionsGUIDs = AssetDatabase.FindAssets("t:ConfigMe.ConfigDefinition");
 
             definitions = definitionsGUIDs.Select(guid => AssetDatabase.LoadAssetAtPath<ConfigDefinition>(AssetDatabase.GUIDToAssetPath(guid))).ToList();
 

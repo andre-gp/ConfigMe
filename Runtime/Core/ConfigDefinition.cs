@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ConfigMe
@@ -6,6 +7,7 @@ namespace ConfigMe
     {
         [SerializeField] string saveName = "settings.txt";
 
-        [SerializeField] Parameter[] parameters;
+        [SerializeField] List<Parameter> parameters = new List<Parameter>();
+        public IReadOnlyList<Parameter> Parameters => parameters;
     }
 }

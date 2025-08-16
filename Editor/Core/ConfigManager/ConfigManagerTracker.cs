@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Linq;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ConfigMe.EditorCM
 {    
@@ -43,9 +44,9 @@ namespace ConfigMe.EditorCM
             {
                 configManager = LoadConfigManager();
 
-                SyncManager(DefinitionsTracker.Definitions);
+                SetManagerDefinitions(DefinitionsTracker.Definitions);
 
-                DefinitionsTracker.OnChangeDefinitions += SyncManager;
+                DefinitionsTracker.OnChangeDefinitions += SetManagerDefinitions;
             }
         }
 
@@ -86,19 +87,29 @@ namespace ConfigMe.EditorCM
             return null;
         }
 
-        private static void SyncManager(IReadOnlyList<ConfigDefinition> definitions)
+        private static void SetManagerDefinitions(IReadOnlyList<ConfigDefinition> definitions)
         {
             if (configManager == null)
                 return;
 
+            // Small delay to ensure AssetDatabase operations run after OnPostprocessAssets has finished
+            // There was a thread conflict happening before.
+            EditorApplication.delayCall += () =>
+            {
+                SetDefinitionsValue(definitions.ToArray());
+
+                EditorUtility.SetDirty(configManager);
+                AssetDatabase.SaveAssetIfDirty(configManager);
+            };
+        }
+
+        private static void SetDefinitionsValue(ConfigDefinition[] definitions)
+        {
             var defProp = configManager.GetType().GetField("definitions", BindingFlags.NonPublic | BindingFlags.Instance);
 
             defProp.SetValue(configManager, definitions.ToArray());
+        }
 
-            EditorUtility.SetDirty(configManager);
-            AssetDatabase.SaveAssetIfDirty(configManager);
-        }  
-        
         public static void CreateNewConfigManager()
         {
             GameObject go = new GameObject("ConfigManager", typeof(ConfigManager));
@@ -108,6 +119,7 @@ namespace ConfigMe.EditorCM
 
             var prefab = PrefabUtility.SaveAsPrefabAsset(go, path);
             ConfigManager = prefab.GetComponent<ConfigManager>();
+            SetDefinitionsValue(DefinitionsTracker.Definitions.ToArray());
             EditorGUIUtility.PingObject(prefab);
 
             GameObject.DestroyImmediate(go);

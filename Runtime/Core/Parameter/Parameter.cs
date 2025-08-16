@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 namespace ConfigMe
 {
+    [Icon("Packages/com.gaton.config-me/Icons/Parameter_Icon.png")]
     public abstract class Parameter : ScriptableObject
     {
         [Tooltip("The display name of the parameter, shown in the UI.")]
