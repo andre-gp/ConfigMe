@@ -42,11 +42,15 @@ namespace ConfigMe.EditorCM
 
             foreach (var definition in definitions)
             {
+                SerializedObject definitionSO = new SerializedObject(definition);
+
                 VisualElement definitionRoot = new VisualElement();
-                definitionRoot.style.SetBorderWidth(1f);
-                definitionRoot.style.SetBorderColor(Color.orangeRed);
-                definitionRoot.style.SetPadding(10f);
-                definitionRoot.style.SetMargin(10f);
+                definitionRoot.style.SetMargin(0, 0, 10, 10);
+
+                //definitionRoot.style.SetBorderWidth(1f);
+                ////definitionRoot.style.SetBorderColor(Color.orangeRed);
+                //definitionRoot.style.SetPadding(10f);
+                //definitionRoot.style.SetMargin(10f);
 
                 var editor = Editor.CreateEditor(definition, typeof(ConfigDefinitionEditor));
 
@@ -54,7 +58,7 @@ namespace ConfigMe.EditorCM
 
                 root.Add(definitionRoot);
 
-                root.Add(new Separator()); 
+                root.Add(new Separator());
             }
         }
 

@@ -13,11 +13,15 @@ namespace ConfigMe.EditorCM
         public static readonly string ussButtonRemoveClassName = ussClassName + "__button-remove";
         public static readonly string ussLabelClassName = ussClassName + "__label";
 
-        public static VisualElement GenerateCustomList()
+        public static VisualElement GenerateCustomList(string title)
         {
             VisualElement customListRoot = new VisualElement();
             customListRoot.styleSheets.Add(ConfigMeEditor.CustomListStyleSheet);
             customListRoot.AddToClassList(ussClassName);
+
+            Label titleLabel = new Label(title);
+            titleLabel.AddToClassList("custom-list__label-title");
+            customListRoot.Add(titleLabel);
 
             Button addButton = new Button() { text = "+" };
             addButton.AddToClassList(ussButtonAddClassName);

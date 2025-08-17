@@ -27,23 +27,26 @@ namespace ConfigMe.EditorCM
             for (int i = 0; i < importedAssets.Length; i++)
             {
                 var definition = GetDefinition(importedAssets[i]);
-                
-                if(definition != null)
-                {
-                    definitions.Add(definition);
 
-                    OnChangeDefinitions?.Invoke(definitions);
+                if (definition != null)
+                {
+                    if (!definitions.Contains(definition))
+                    {
+                        definitions.Add(definition);
+
+                        OnChangeDefinitions?.Invoke(definitions);
+                    }
                 }
             }
 
-            if(deletedAssets.Length > 0)
+            if (deletedAssets.Length > 0)
             {
                 int removedCount = definitions.RemoveAll(def => def == null);
 
-                if(removedCount > 0)
+                if (removedCount > 0)
                 {
                     OnChangeDefinitions?.Invoke(definitions);
-                }                
+                }
             }
         }
 

@@ -28,7 +28,7 @@ namespace ConfigMe.EditorCM
             {
                 var parameter = GetParameter(importedAssets[i]);
 
-                if (parameter != null)
+                if (!parameters.Contains(parameter))
                 {
                     parameters.Add(parameter);
 

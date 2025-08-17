@@ -47,6 +47,7 @@ namespace ConfigMe.EditorCM
                 SetManagerDefinitions(DefinitionsTracker.Definitions);
 
                 DefinitionsTracker.OnChangeDefinitions += SetManagerDefinitions;
+                ParameterTracker.OnChangeParameters += OnChangeParameter;
             }
         }
 
@@ -108,6 +109,31 @@ namespace ConfigMe.EditorCM
             var defProp = configManager.GetType().GetField("definitions", BindingFlags.NonPublic | BindingFlags.Instance);
 
             defProp.SetValue(configManager, definitions.ToArray());
+        }
+
+        private static void OnChangeParameter(List<Parameter> list)
+        {
+            foreach (var definition in DefinitionsTracker.Definitions)
+            {
+                foreach (var parameter in definition.Parameters)
+                {
+                    if (parameter.Equals(null))
+                    {
+                        EditorApplication.delayCall += () =>
+                        {
+                            var paramProp = definition.GetType().GetField("parameters", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                            var cleanedParameterList = definition.Parameters.ToList<Parameter>();
+                            cleanedParameterList.RemoveAll(x => x.Equals(null));
+
+                            paramProp.SetValue(definition, cleanedParameterList);
+
+                            EditorUtility.SetDirty(configManager);
+                            AssetDatabase.SaveAssetIfDirty(configManager);
+                        };
+                    }
+                }
+            }
         }
 
         public static void CreateNewConfigManager()
