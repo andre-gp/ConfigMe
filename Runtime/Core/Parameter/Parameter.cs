@@ -52,7 +52,7 @@ namespace ConfigMe
         public abstract void ApplyValue(JObject jObj);
         public abstract void SetWithoutNotify(JObject jObj);
 
-        public VisualElement InstantiateElement()
+        public VisualElement InstantiateVisualElement()
         {
             VisualElement root = component.Instantiate();
             InitElement(root);

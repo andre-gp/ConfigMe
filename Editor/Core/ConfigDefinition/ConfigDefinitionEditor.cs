@@ -138,6 +138,8 @@ namespace ConfigMe.EditorCM
 
                 Button removeBtn = new Button(removeParameter) { text = "-" };
 
+                paramRow.RegisterCallback<MouseDownEvent>(evt => { EditorGUIUtility.PingObject(parameter); });
+
                 paramRow.AddManipulator(new ContextualMenuManipulator((ContextualMenuPopulateEvent callback) =>
                 {
                     callback.menu.AppendAction("Select Asset", (x) =>

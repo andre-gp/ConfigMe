@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,22 +9,32 @@ namespace ConfigMe
     {
         [SerializeField] VisualTreeAsset tabButton;
         [SerializeField] VisualTreeAsset parameterListTemplate;
-        [SerializeField] ParameterGroup[] selections;
+
+        public List<ConfigDefinition> definitionsToShow;
+
+        ConfigManager manager;
 
         UIDocument document;
 
-
+        List<ParameterGroup> groups;
 
         private void Start()
         {
+            manager = FindFirstObjectByType<ConfigManager>();
+
             document = GetComponent<UIDocument>();
 
             var categoriesGroup = document.rootVisualElement.Q<VisualElement>("tabs__button-group");
             var parametersGroup = document.rootVisualElement.Q<VisualElement>("parameters__group");
 
-            for (int i = 0; i < selections.Length; i++)
+            groups = new List<ParameterGroup>();
+
+            foreach (var definition in manager.Definitions)
             {
-                ParameterGroup category = selections[i];
+                ParameterGroup category = new ParameterGroup();
+                groups.Add(category);
+                category.categoryName = definition.name;
+                category.parameters = new List<Parameter>(definition.Parameters).ToArray();
 
                 VisualElement tabButtonRoot = this.tabButton.Instantiate();
                 categoriesGroup.Add(tabButtonRoot);
@@ -43,7 +55,7 @@ namespace ConfigMe
 
                 foreach (var parameter in category.parameters)
                 {
-                    VisualElement element = parameter.InstantiateElement();
+                    VisualElement element = parameter.InstantiateVisualElement();
                     //element.AddToClassList(".text__size--small");
                     //element.AddToClassList(".text__font--default");
                     scrollView.Add(element);
@@ -56,17 +68,17 @@ namespace ConfigMe
             {
                 btn.clickable.clicked += () =>
                 {
-                    GetComponent<ConfigManager>().ApplyAndSaveCurrentSettings();
+                    ConfigManager.ApplyAndSaveCurrentSettings();
                 };
             }
 
-            OnClickTabButton(selections[0]);
+            OnClickTabButton(groups[0]);
         }
 
 
         private void OnClickTabButton(ParameterGroup selectedCategory)
         {
-            foreach (var category in selections)
+            foreach (var category in groups)
             {
                 bool activate = category == selectedCategory;
 

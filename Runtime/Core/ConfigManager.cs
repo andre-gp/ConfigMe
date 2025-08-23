@@ -9,13 +9,16 @@ namespace ConfigMe
 {
     public class ConfigManager : MonoBehaviour
     {
-        [SerializeField] UnityEvent<JObject> LoadObject;
+        public static ConfigManager s_instance;
+
+        [SerializeField] UnityEvent<FileLoadContext> LoadObject;
 
         [SerializeField] UnityEvent<JObject> SaveObject;
 
         [SerializeField] ConfigDefinition[] definitions;
+        public ConfigDefinition[] Definitions => definitions;
 
-        [SerializeField] Parameter[] parameters;
+        [SerializeField] List<Parameter> parameters;
 
         JObject currentSettings;
 
@@ -23,6 +26,21 @@ namespace ConfigMe
 
         private void Awake()
         {
+            if (s_instance == null)
+            {
+                s_instance = this;
+            }
+            else
+            {
+                Destroy(this.gameObject);
+                ConfigMeLogger.LogError($"Multiple {nameof(ConfigManager)} instances detected. Only one instance is allowed. Removing the extra one.");
+            }
+
+            foreach (var def in definitions)
+            {
+                parameters.AddRange(def.Parameters);
+            }
+
             foreach (var parameter in parameters)
             {
                 parameter.InitParameter();
@@ -60,12 +78,13 @@ namespace ConfigMe
 
         private void LoadSettings()
         {
-            currentSettings = GenerateSettings();
+            FileLoadContext loadContext = new FileLoadContext();
+            LoadObject?.Invoke(loadContext);
 
-            LoadObject?.Invoke(currentSettings);
+            currentSettings = loadContext.LoadedObject;
 
             if (currentSettings == null)
-            {               
+            {
                 currentSettings = GenerateSettings();
 
                 SaveOnDisk(currentSettings);
@@ -99,7 +118,12 @@ namespace ConfigMe
             return settings;
         }
 
-        public void ApplyAndSaveCurrentSettings()
+        public static void ApplyAndSaveCurrentSettings()
+        {
+            s_instance.InstanceApplyAndSaveCurrentSettings();
+        }
+
+        private void InstanceApplyAndSaveCurrentSettings()
         {
             ApplySettings(currentSettings);
 
